@@ -48,12 +48,16 @@ func (is *InlineSource) GetTemplates() string {
 }
 
 func newInlineSource(in *v1beta1.GoTemplate) (*InlineSource, error) {
-	if in.Inline == nil || in.Inline.Template == "" {
-		return nil, errors.New("inline.template should be provided")
+	if in.Inline == nil || (in.Inline.Template == "" && len(in.Inline.Templates) == 0) {
+		return nil, errors.New("inline.template or inline.templates should be provided")
 	}
-
+	tpl := in.Inline.Template
+	for _, t := range in.Inline.Templates {
+		tpl += "\n---\n"
+		tpl += t
+	}
 	return &InlineSource{
-		Template: in.Inline.Template,
+		Template: tpl,
 	}, nil
 }
 

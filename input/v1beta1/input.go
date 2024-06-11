@@ -40,7 +40,8 @@ const (
 )
 
 type TemplateSourceInline struct {
-	Template string `json:"template,omitempty"`
+	Template  string   `json:"template,omitempty"`
+	Templates []string `json:"templates,omitempty"`
 }
 
 type TemplateSourceFileSystem struct {
